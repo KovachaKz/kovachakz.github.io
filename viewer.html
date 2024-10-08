@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STL Model Viewer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script> <!-- Three.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/controls/OrbitControls.js"></script> <!-- Orbit Controls -->
+    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/STLLoader.js"></script> <!-- STL Loader -->
+    <style>
+        #stl-container {
+            width: 800px;
+            height: 600px;
+            margin: auto;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <button id="return-button" class="return-button" onclick="window.location.href='index.html'">Return to Landing Page</button>
+    <h1>STL Model Viewer</h1>
+    <div id="stl-container"></div>
+
+    <script>
+        // Parse the URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const filename = urlParams.get('model'); // Make sure 'model' matches the URL parameter
+    
+        // Get the container element
+        const container = document.getElementById('stl-container');
+    
+        if (!filename) {
+            console.error("No model specified.");
+            if (container) {
+                container.innerText = "No model specified.";
+            }
+        } else {
+            console.log("Model URL:", filename);  // Debugging log to see the filename
+    
+            // THREE.js scene setup
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.set(0, 50, 200);
+    
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            container.appendChild(renderer.domElement);
+    
+            // Add light to the scene
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+            directionalLight.position.set(1, 1, 1).normalize();
+            scene.add(directionalLight);
+    
+            // Add Orbit Controls
+            const controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+    
+            // Load the STL model
+            const loader = new THREE.STLLoader();
+            loader.load(filename, function (geometry) {
+                const material = new THREE.MeshStandardMaterial({ color: '#909090' });
+                const mesh = new THREE.Mesh(geometry, material);
+                mesh.position.set(0, 0, 0);
+                scene.add(mesh);
+            });
+    
+            // Render the scene
+            function animate() {
+                requestAnimationFrame(animate);
+                controls.update();
+                renderer.render(scene, camera);
+            }
+    
+            animate(); // Start rendering loop
+        }
+    </script>
+    
+</body>
+</html>

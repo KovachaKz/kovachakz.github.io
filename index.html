@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Shelly 3D Landing Page</title>
+</head>
+<body>
+    <header>
+        <h1>Shelly3D Vault</h1>
+    </header>
+    <main>
+        <div class="model-list">
+            <!-- Replace each item with your STL names and links -->
+            <div class="model-item">
+                <p>RGBW2
+                    <button onclick="loadModel('models/magnet.stl')">View Model</button>
+                    <a href="models/magnet.stl " download="magnet.stl" class="download-link">Download STL</a>
+                </p>
+            </div>
+            <div class="model-item">
+                <p>Tripple 40A CT
+                    <button onclick="loadModel('models/Tripple40A_CT.stl')">View Model</button>
+                    <a href="models/Tripple40A_CT.stl" download="Tripple40A_CT.stl" class="download-link">Download STL</a>
+                </p>
+            </div>
+            <div class="model-item">
+                <p>Tripple 40A CT
+                    <button onclick="loadModel('models/Tripple40A_CT.stl')">View Model</button>
+                 <a href="models/Tripple40A_CT.stl" download="Tripple40A_CT.stl" class="download-link">Download STL</a>
+                </p>
+            </div>
+            
+            <!-- Add more items as needed -->
+        </div>
+    </main>
+    <script>
+        function loadModel(url) {
+            window.location.href = `viewer.html?model=${encodeURIComponent(url)}`;
+        }
+    </script>
+</body>S
+</html>
