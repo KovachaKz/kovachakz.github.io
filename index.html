@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <title>Shelly 3D Landing Page</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 </head>
 <body>
     <header>
@@ -14,31 +16,61 @@
         <div class="model-list">
             <!-- Replace each item with your STL names and links -->
             <div class="model-item">
-                <p>RGBW2
-                    <button onclick="loadModel('models/magnet.stl')">View Model</button>
-                    <a href="models/magnet.stl " download="magnet.stl" class="download-link">Download STL</a>
-                </p>
+                <div style="touch-action: none;"></div>
+                <div class="item-content">
+                    <p>TRV Replacement Part</p>
+                    <a onclick="loadModel('models/shelly-trv.stl')">View Model</a>
+                    <button onclick="downloadFiles(['models/shelly-trv.stl'])">Download STL</button>
+                </div>
             </div>
             <div class="model-item">
-                <p>Tripple 40A CT
-                    <button onclick="loadModel('models/Tripple40A_CT.stl')">View Model</button>
-                    <a href="models/Tripple40A_CT.stl" download="Tripple40A_CT.stl" class="download-link">Download STL</a>
-                </p>
+                <div style="touch-action: none;"></div>
+                <div class="item-content">
+                    <p>Wall Display Stand</p>
+                    <a onclick="loadModel('models/wall_display_stand_flat_back.stl')">View Model</a>
+                    <button onclick="downloadFiles(['models/wall_display_stand_45.stl', 'models/wall_display_stand_flat_back.stl', 'models/wall_display_stand_fastener.stl', 'models/wall_display_stand_fastener_high.stl'])">Download STL</button>
+                </div>
             </div>
             <div class="model-item">
-                <p>Tripple 40A CT
-                    <button onclick="loadModel('models/Tripple40A_CT.stl')">View Model</button>
-                 <a href="models/Tripple40A_CT.stl" download="Tripple40A_CT.stl" class="download-link">Download STL</a>
-                </p>
+                <div style="touch-action: none;"></div>
+                <div class="item-content">
+                    <p>BLU Door/Window Stand</p>
+                    <a onclick="loadModel('models/sensor-up.stl')">View Model</a>
+                    <button onclick="downloadFiles(['models/sensor-magnet.stl', 'models/sensor-down.stl', 'models/sensor-left.stl', 'models/sensor-up.stl','models/sensor-right.stl'])">Download STL</button>
+                </div>
             </div>
-            
-            <!-- Add more items as needed -->
+            <div class="model-item">
+                <div style="touch-action: none;"></div>
+                <div class="item-content">
+                    <p>Yet Another Model</p>
+                    <button onclick="loadModel('models/yet_another_model.stl')">View Model</button>
+                    <button onclick="downloadFiles(['models/yet_another_model.stl'])">Download STL</button>
+                </div>
+            </div>
         </div>
     </main>
     <script>
         function loadModel(url) {
-            window.location.href = `viewer.html?model=${encodeURIComponent(url)}`;
+            const safeUrl = encodeURIComponent(url); // Ensure safe URL encoding
+            window.location.href = `viewer.html?model=${safeUrl}`;
+        }
+
+        async function downloadFiles(urls) {
+            const zip = new JSZip();
+            const folder = zip.folder("models");
+
+            for (const url of urls) {
+                const response = await fetch(url);
+                const blob = await response.blob();
+                const fileName = url.split('/').pop();
+                folder.file(fileName, blob);
+            }
+
+            zip.generateAsync({ type: "blob" })
+                .then(function(content) {
+                    saveAs(content, "models.zip");
+                });
         }
     </script>
-</body>S
+</body>
 </html>
