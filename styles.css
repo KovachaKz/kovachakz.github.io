@@ -75,3 +75,13 @@ nav {
     width: 200px;
     height: 200px;
 }
+@media (max-width: 600px) {
+    nav h1 {
+        font-size: 1.5rem;
+    }
+
+    .model-item {
+        width: 100%;
+        margin: 0.5em 0;
+    }
+}

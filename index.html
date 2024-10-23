@@ -15,28 +15,29 @@
     <main>
         <div class="model-list">
             <!-- Replace each item with your STL names and links -->
+           
+            <div class="model-item">
+                <div style="touch-action: none;"></div>
+                <div class="item-content">
+                    <p>Wall Display Stand</p>
+                    <button onclick="loadModel('models/wall_display_stand_flat_back.stl', 'Wall Display Stand')">View Model</button>
+        <button onclick="downloadFiles(['models/wall_display_stand_45.stl', 'models/wall_display_stand_flat_back.stl', 'models/wall_display_stand_fastener.stl', 'models/wall_display_stand_fastener_high.stl'])">Download STL</button>
+                </div>
+            </div>
             <div class="model-item">
                 <div style="touch-action: none;"></div>
                 <div class="item-content">
                     <p>TRV Replacement Part</p>
-                    <a onclick="loadModel('models/shelly-trv.stl')">View Model</a>
+                    <button onclick="loadModel('models/shelly-trv.stl','TRV Replacement Part')">View Model</button>
                     <button onclick="downloadFiles(['models/shelly-trv.stl'])">Download STL</button>
                 </div>
             </div>
             <div class="model-item">
                 <div style="touch-action: none;"></div>
                 <div class="item-content">
-                    <p>Wall Display Stand</p>
-                    <a onclick="loadModel('models/wall_display_stand_flat_back.stl')">View Model</a>
-                    <button onclick="downloadFiles(['models/wall_display_stand_45.stl', 'models/wall_display_stand_flat_back.stl', 'models/wall_display_stand_fastener.stl', 'models/wall_display_stand_fastener_high.stl'])">Download STL</button>
-                </div>
-            </div>
-            <div class="model-item">
-                <div style="touch-action: none;"></div>
-                <div class="item-content">
                     <p>BLU Door/Window Stand</p>
-                    <a onclick="loadModel('models/sensor-up.stl')">View Model</a>
-                    <button onclick="downloadFiles(['models/sensor-magnet.stl', 'models/sensor-down.stl', 'models/sensor-left.stl', 'models/sensor-up.stl','models/sensor-right.stl'])">Download STL</button>
+                    <button onclick="loadModel('models/sensor-up.stl', 'BLU Door/Window Stand')">View Model</button>
+                    <button onclick="downloadFiles(['models/sensor-magnet.stl', 'models/sensor-down.stl', 'models/sensor-left.stl', 'models/sensor-up.stl', 'models/sensor-right.stl'])">Download STL</button>
                 </div>
             </div>
             <div class="model-item">
@@ -50,9 +51,10 @@
         </div>
     </main>
     <script>
-        function loadModel(url) {
-            const safeUrl = encodeURIComponent(url); // Ensure safe URL encoding
-            window.location.href = `viewer.html?model=${safeUrl}`;
+        function loadModel(url, modelSet) {
+            const safeUrl = encodeURIComponent(url);  // Ensure safe URL encoding
+            const safeModelSet = encodeURIComponent(modelSet);  // Ensure safe modelSet encoding
+            window.location.href = `viewer.html?model=${safeUrl}&modelSet=${safeModelSet}`;
         }
 
         async function downloadFiles(urls) {
