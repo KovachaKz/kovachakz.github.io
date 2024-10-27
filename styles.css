@@ -75,13 +75,53 @@ nav {
     width: 200px;
     height: 200px;
 }
+/* Styles for the GUI controls navigation on mobile */
+.gui-toggle {
+    display: none;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 15;
+    background-color: #2980b9;
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.gui-toggle:active,
+.gui-toggle:hover {
+    background-color: #3498db;
+}
+
+/* GUI styles on mobile */
 @media (max-width: 600px) {
-    nav h1 {
-        font-size: 1.5rem;
+    .dg.ac {
+        display: none; /* Hide GUI controls by default */
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 75%;
+        height: 100%;
+        background-color: #ffffff;
+        padding: 20px;
+        z-index: 10;
+        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
     }
 
-    .model-item {
-        width: 100%;
-        margin: 0.5em 0;
+    /* Show GUI when the menu is open */
+    .dg.ac.active {
+        display: block;
+    }
+
+    /* Adjust canvas to allow space for the GUI menu */
+    canvas {
+        height: calc(100vh - 50px); /* Offset height for menu bar */
+    }
+
+    /* Display toggle button on mobile */
+    .gui-toggle {
+        display: block;
     }
 }

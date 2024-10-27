@@ -7,21 +7,76 @@
     <title>Shelly 3D Landing Page</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script type="module">
+        import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js';
+        import { STLLoader } from 'https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/loaders/STLLoader.js';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize loaders for each canvas
+            const loaders = document.querySelectorAll('.model-loader');
+            loaders.forEach(loader => {
+                const modelUrl = loader.dataset.model;
+                const canvas = loader.querySelector('canvas');
+                loadModelPreview(canvas, modelUrl);
+            });
+        });
+
+        function loadModelPreview(canvas, modelUrl) {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+            camera.position.z = 1.5;
+
+            const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+
+            const loader = new STLLoader();
+            const material = new THREE.MeshPhongMaterial({ color: 0x5e5e5e });
+            const light = new THREE.DirectionalLight(0xffffff, 1);
+            light.position.set(1, 1, 1).normalize();
+            scene.add(light);
+
+            loader.load(modelUrl, function(geometry) {
+                const mesh = new THREE.Mesh(geometry, material);
+                mesh.scale.set(0.05, 0.05, 0.05);
+                scene.add(mesh);
+
+                const animate = function() {
+                    requestAnimationFrame(animate);
+                    mesh.rotation.x += 0.01;
+                    mesh.rotation.y += 0.01;
+                    renderer.render(scene, camera);
+                };
+                animate();
+            });
+        }
+    </script>
 </head>
 <body>
+
+
+
     <header>
         <h1>Shelly3D Vault</h1>
     </header>
+
+
+
+
+
+
+
     <main>
         <div class="model-list">
             <!-- Replace each item with your STL names and links -->
            
             <div class="model-item">
-                <div style="touch-action: none;"></div>
+                <div class="model-loader" data-model="models/wall_display_stand_flat_back.stl">
+                    <canvas width="150" height="150"></canvas>
+                </div>
                 <div class="item-content">
                     <p>Wall Display Stand</p>
                     <button onclick="loadModel('models/wall_display_stand_flat_back.stl', 'Wall Display Stand')">View Model</button>
-        <button onclick="downloadFiles(['models/wall_display_stand_45.stl', 'models/wall_display_stand_flat_back.stl', 'models/wall_display_stand_fastener.stl', 'models/wall_display_stand_fastener_high.stl'])">Download STL</button>
+                    <button onclick="downloadFiles(['models/wall_display_stand_45.stl', 'models/wall_display_stand_flat_back.stl', 'models/wall_display_stand_fastener.stl', 'models/wall_display_stand_fastener_high.stl'])">Download STL</button>
                 </div>
             </div>
             <div class="model-item">
@@ -50,6 +105,16 @@
             </div>
         </div>
     </main>
+
+
+
+
+
+
+
+
+
+
     <script>
         function loadModel(url, modelSet) {
             const safeUrl = encodeURIComponent(url);  // Ensure safe URL encoding
